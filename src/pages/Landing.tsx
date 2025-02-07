@@ -1,6 +1,6 @@
-import { useState, useEffect, Suspense } from "react";
+import { Suspense } from "react";
 import { 
-  MapPin, Moon, Sun, Zap, Leaf, Award, ChevronDown, Boxes 
+  MapPin, Zap, Leaf, Award
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
