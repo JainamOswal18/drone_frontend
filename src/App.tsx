@@ -7,6 +7,8 @@ import { Navbar } from './components/Navbar';
 import { connectSocket, DroneData } from './lib/socket';
 import { motion } from 'framer-motion';
 import { debounce } from 'lodash';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Landing } from './pages/Landing';
 
 const initialDroneData: DroneData = {
   latitude: 18.51957000,
@@ -22,6 +24,8 @@ function App() {
   const [droneData, setDroneData] = useState<DroneData>(initialDroneData);
   const [isDark, setIsDark] = useState(false);
   const [hasNewData, setHasNewData] = useState(false);
+  const location = useLocation();
+  console.log('Current route:', location.pathname); // Debug log
 
   useEffect(() => {
     const debouncedUpdate = debounce((data: DroneData) => {
@@ -50,43 +54,52 @@ function App() {
   }, [isDark]);
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
-      <Navbar />
-      
-      <div className="ml-[72px] lg:ml-[240px]">
-        <nav className="bg-white dark:bg-gray-800 shadow-lg">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
-              <motion.div
-                className="flex items-center"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-              >
-                <Drone className="h-8 w-8 text-blue-600 dark:text-blue-400" />
-                <span className="ml-2 text-xl font-bold dark:text-white">Drone Tracker</span>
-              </motion.div>
-              <ThemeToggle isDark={isDark} onToggle={() => setIsDark(!isDark)} />
-            </div>
-          </div>
-        </nav>
+    <Routes location={location} key={location.pathname}>
+      <Route path="/" element={<Landing />} />
+      <Route path="/dashboard" element={
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="min-h-screen bg-gray-100 dark:bg-gray-900"
+        >
+          <Navbar />
+          <div className="ml-[72px] lg:ml-[240px]">
+            <nav className="bg-white dark:bg-gray-800 shadow-lg">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex items-center justify-between h-16">
+                  <motion.div
+                    className="flex items-center"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                  >
+                    <Drone className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+                    <span className="ml-2 text-xl font-bold dark:text-white">Drone Tracker</span>
+                  </motion.div>
+                  <ThemeToggle isDark={isDark} onToggle={() => setIsDark(!isDark)} />
+                </div>
+              </div>
+            </nav>
 
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <div className="lg:col-span-3 h-[600px]">
-              <MapComponent
-                latitude={droneData.latitude}
-                longitude={droneData.longitude}
-                altitude={droneData.altitude}
-                hasNewData={hasNewData}
-              />
-            </div>
-            <div className="lg:col-span-1">
-              <Dashboard data={droneData} hasNewData={hasNewData} />
-            </div>
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <div className="lg:col-span-3 h-[600px]">
+                  <MapComponent
+                    latitude={droneData.latitude}
+                    longitude={droneData.longitude}
+                    altitude={droneData.altitude}
+                    hasNewData={hasNewData}
+                  />
+                </div>
+                <div className="lg:col-span-1">
+                  <Dashboard data={droneData} hasNewData={hasNewData} />
+                </div>
+              </div>
+            </main>
           </div>
-        </main>
-      </div>
-    </div>
+        </motion.div>
+      } />
+    </Routes>
   );
 }
 
