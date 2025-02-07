@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
-import { Bone as Drone } from 'lucide-react';
+import { useState, useEffect, Suspense } from 'react';
+import { Rocket } from 'lucide-react';
 import { MapComponent } from './components/MapComponent';
 import { Dashboard } from './components/Dashboard';
-import { ThemeToggle } from './components/ThemeToggle';
 import { Navbar } from './components/Navbar';
 import { connectSocket, DroneData } from './lib/socket';
 import { motion } from 'framer-motion';
 import { debounce } from 'lodash';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Landing } from './pages/Landing';
+import { Canvas } from "@react-three/fiber";
+import { Stars } from "@react-three/drei";
 
 const initialDroneData: DroneData = {
   latitude: 18.51957000,
@@ -16,16 +17,14 @@ const initialDroneData: DroneData = {
   altitude: 0,
   speed: 0,
   battery: 100,
-  heading: 100,         // Add missing properties
-  satellites: 0,      // Add missing properties
+  heading: 100,
+  satellites: 0,
 };
 
 function App() {
   const [droneData, setDroneData] = useState<DroneData>(initialDroneData);
-  const [isDark, setIsDark] = useState(false);
   const [hasNewData, setHasNewData] = useState(false);
   const location = useLocation();
-  console.log('Current route:', location.pathname); // Debug log
 
   useEffect(() => {
     const debouncedUpdate = debounce((data: DroneData) => {
@@ -45,14 +44,6 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDark]);
-
   return (
     <Routes location={location} key={location.pathname}>
       <Route path="/" element={<Landing />} />
@@ -61,27 +52,26 @@ function App() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="min-h-screen bg-gray-100 dark:bg-gray-900"
+          className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black relative"
         >
           <Navbar />
-          <div className="ml-[72px] lg:ml-[240px]">
-            <nav className="bg-white dark:bg-gray-800 shadow-lg">
+          <div className="ml-[72px] lg:ml-[240px] flex flex-col min-h-screen">
+            <nav className="bg-gray-800/50 backdrop-blur-sm shadow-lg">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
+                <div className="flex items-center h-16">
                   <motion.div
                     className="flex items-center"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                   >
-                    <Drone className="h-8 w-8 text-blue-600 dark:text-blue-400" />
-                    <span className="ml-2 text-xl font-bold dark:text-white">Drone Tracker</span>
+                    <Rocket className="h-8 w-8 text-green-500" />
+                    <span className="ml-2 text-xl font-bold text-white">Drone Tracker</span>
                   </motion.div>
-                  <ThemeToggle isDark={isDark} onToggle={() => setIsDark(!isDark)} />
                 </div>
               </div>
             </nav>
 
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                 <div className="lg:col-span-3 h-[600px]">
                   <MapComponent
@@ -96,6 +86,32 @@ function App() {
                 </div>
               </div>
             </main>
+
+            {/* Footer */}
+            <footer className="mt-auto">
+              <div className="border-t border-gray-800 py-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                  <p className="text-center text-gray-400 text-lg">
+                    Made with <span className="inline-block text-red-500 animate-pulse">❤</span> by Team Straw Hats
+                  </p>
+                </div>
+              </div>
+            </footer>
+          </div>
+
+          {/* Stars Background */}
+          <div className="absolute inset-0 pointer-events-none">
+            <Canvas style={{ pointerEvents: "none" }}>
+              <Stars
+                radius={300}
+                depth={50}
+                count={2000}
+                factor={4}
+                saturation={0}
+                fade
+                speed={0.5}
+              />
+            </Canvas>
           </div>
         </motion.div>
       } />

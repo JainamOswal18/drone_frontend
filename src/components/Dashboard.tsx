@@ -51,22 +51,23 @@ export function Dashboard({ data, hasNewData }: DashboardProps) {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
     >
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold mb-6 dark:text-white">Drone Statistics</h2>
+      <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-lg p-6 border border-gray-700">
+        <h2 className="text-2xl font-bold mb-6 text-white">Drone Statistics</h2>
         
         <div className="mb-8">
-          <div className="w-32 h-32 mx-auto mb-4">
+          <div className="w-24 h-24 mx-auto mb-4">
             <CircularProgressbar
               value={data.battery}
               text={`${data.battery}%`}
               styles={buildStyles({
                 pathColor: getBatteryColor(data.battery),
                 textColor: getBatteryColor(data.battery),
-                trailColor: '#e5e7eb',
+                trailColor: '#374151',
+                textSize: '22px',
               })}
             />
           </div>
-          <p className="text-center text-gray-500 dark:text-gray-400">Battery Level</p>
+          <p className="text-center text-gray-400">Battery Level</p>
         </div>
 
         <div className="space-y-4">
@@ -78,19 +79,19 @@ export function Dashboard({ data, hasNewData }: DashboardProps) {
               transition={{ type: 'spring', stiffness: 300 }}
             >
               <div className="flex items-center space-x-4 mb-2">
-                <div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-lg">
-                  <stat.icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                <div className="bg-gray-700/50 backdrop-blur-sm p-3 rounded-lg">
+                  <stat.icon className="w-6 h-6 text-green-500" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{stat.label}</p>
-                  <p className="text-lg font-semibold dark:text-white">{stat.value}</p>
+                  <p className="text-sm text-gray-400">{stat.label}</p>
+                  <p className="text-lg font-semibold text-white">{stat.value}</p>
                 </div>
               </div>
               
               {stat.showBar && (
-                <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
                   <motion.div
-                    className="h-full bg-blue-500"
+                    className="h-full bg-green-500"
                     initial={{ width: 0 }}
                     animate={{
                       width: `${(parseFloat(stat.value) / stat.maxValue) * 100}%`,
@@ -104,12 +105,14 @@ export function Dashboard({ data, hasNewData }: DashboardProps) {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-        <h3 className="text-lg font-semibold mb-4 dark:text-white">Orientation</h3>
+      <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-lg p-6 border border-gray-700">
+        <h3 className="text-lg font-semibold mb-4 text-white">Orientation</h3>
         <Compass heading={data.heading} />
       </div>
 
-      <SatelliteInfo satellites={data.satellites} />
+      <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg shadow-lg p-6 border border-gray-700">
+        <SatelliteInfo satellites={data.satellites} />
+      </div>
 
       <AnimatePresence>
         {hasNewData && (
@@ -117,7 +120,7 @@ export function Dashboard({ data, hasNewData }: DashboardProps) {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className="text-center text-sm text-blue-500 dark:text-blue-400"
+            className="text-center text-sm text-green-500"
           >
             ● Live Data
           </motion.div>

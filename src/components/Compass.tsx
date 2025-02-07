@@ -36,11 +36,7 @@ export function Compass({ heading }: CompassProps) {
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg">
-      <div className="flex items-center space-x-2 mb-6">
-        <CompassIcon className="w-6 h-6 text-blue-500" />
-        <span className="text-lg font-semibold dark:text-white">Orientation</span>
-      </div>
-
+    
       <div className="relative w-48 h-48 mx-auto">
         <div className="absolute inset-0">
           {/* Main border circle with directions */}

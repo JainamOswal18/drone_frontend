@@ -1,8 +1,6 @@
-# Drone Tracker Dashboard 🚁
+# SwiftAir - Drone Tracker Dashboard 🚁
 
 A modern, real-time drone tracking dashboard built with React, TypeScript, and WebSocket integration.
-
-![Drone Tracker](https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&q=80&w=1000)
 
 ## Features 🌟
 
@@ -21,8 +19,8 @@ A modern, real-time drone tracking dashboard built with React, TypeScript, and W
   - Signal strength meter
 
 - **Interactive UI**:
-  - Smooth animations
-  - Dark mode support
+  - Modern landing page with 3D drone model
+  - Smooth animations with Framer Motion
   - Responsive design
   - Real-time data updates
   - Visual feedback for data changes
@@ -31,8 +29,8 @@ A modern, real-time drone tracking dashboard built with React, TypeScript, and W
   - Collapsible sidebar
   - Quick access to different views
   - Active state indicators
-  - Notification badges
   - Emergency controls
+  - Seamless page transitions
 
 - **Advanced Features**:
   - Compass rose with cardinal directions
@@ -40,6 +38,7 @@ A modern, real-time drone tracking dashboard built with React, TypeScript, and W
   - Signal strength visualization
   - Battery status with color coding
   - Altitude and speed gauges
+  - Interactive 3D drone visualization
 
 ## Tech Stack 💻
 
@@ -49,6 +48,7 @@ A modern, real-time drone tracking dashboard built with React, TypeScript, and W
 - React Leaflet
 - Framer Motion
 - Lucide Icons
+- React Three Fiber
 - React Circular Progressbar
 
 ## Getting Started 🚀
@@ -78,41 +78,53 @@ npm run dev
 npm run build
 ```
 
-## Usage 📱
-
-1. **Dark Mode**: Toggle between light and dark themes
-2. **Navigation**: 
-   - Use the collapsible sidebar for quick access
-   - Monitor active sections
-   - Check notification badges
-3. **Map Controls**: 
-   - Zoom in/out using the mouse wheel
-   - Pan by dragging
-   - Click markers for additional information
-4. **Live Updates**: 
-   - Watch for the pulsing indicator
-   - Monitor satellite connections
-   - Check signal strength
-5. **Compass**: 
-   - View real-time heading
-   - Reference cardinal directions
-   - Monitor orientation changes
-
 ## Project Structure 📁
 
 ```
 src/
 ├── components/
-│   ├── Dashboard.tsx    # Stats and metrics
-│   ├── MapComponent.tsx # OpenStreetMap integration
-│   ├── Navbar.tsx      # Vertical navigation
-│   ├── Compass.tsx     # Heading indicator
+│   ├── Dashboard.tsx     # Stats and metrics
+│   ├── MapComponent.tsx  # OpenStreetMap integration
+│   ├── Navbar.tsx       # Vertical navigation
+│   ├── Compass.tsx      # Heading indicator
 │   ├── SatelliteInfo.tsx # Satellite status
-│   └── ThemeToggle.tsx # Dark mode switch
+│   └── DroneMesh.tsx    # 3D drone model
+├── pages/
+│   ├── Landing.tsx      # Landing page with 3D visualization
+│   └── Dashboard.tsx    # Main dashboard view
 ├── lib/
-│   └── socket.ts       # WebSocket connection
-└── App.tsx            # Main application
+│   └── socket.ts        # WebSocket connection
+└── App.tsx             # Main application
 ```
+
+## Usage 📱
+
+1. **Landing Page**:
+   - View 3D drone visualization
+   - Explore team and features
+   - Navigate to dashboard
+
+2. **Dashboard**:
+   - Use the collapsible sidebar for navigation
+   - Monitor real-time drone statistics
+   - View live map tracking
+   - Check satellite connections
+   - Monitor battery and speed
+
+3. **Map Controls**: 
+   - Zoom in/out using the mouse wheel
+   - Pan by dragging
+   - Click markers for additional information
+
+4. **Live Updates**: 
+   - Watch for the pulsing indicator
+   - Monitor satellite connections
+   - Check signal strength
+
+5. **Compass**: 
+   - View real-time heading
+   - Reference cardinal directions
+   - Monitor orientation changes
 
 ## Contributing 🤝
 
